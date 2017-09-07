@@ -27,4 +27,10 @@ public class ApplicationTests {
 		zookeeperUtils.createNode(path, node);
 		assert zookeeperUtils.exists(path, node);
 	}
+
+	@Test
+	public void testClient() throws Exception {
+		assert zookeeperUtils.getClientIndex() == 0;
+		assert zookeeperUtils.getClientNum() == 1;
+	}
 }

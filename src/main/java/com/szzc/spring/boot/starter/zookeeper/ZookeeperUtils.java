@@ -158,7 +158,7 @@ public class ZookeeperUtils {
 	// 创建当前应用客户端节点
 	private String createClient() throws Exception {
 		final String path = "/" + applicationName + "/client";
-		final String node = path + "/" + hostname;
+		final String node = hostname;
 		return this.createNode(path, node);
 	}
 
@@ -187,6 +187,7 @@ public class ZookeeperUtils {
 
 	/**
 	 * 节点是否存在
+	 * 
 	 * @param path
 	 * @param node
 	 * @return
