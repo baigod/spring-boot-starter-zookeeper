@@ -4,7 +4,7 @@ import java.net.InetAddress;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.apache.zookeeper.CreateMode;
@@ -17,8 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import com.szzc.commons.core.enums.ErrorCode;
-import com.szzc.commons.core.exception.GlobalException;
+import com.szzc.spring.boot.starter.zookeeper.exception.LockBusyException;
 
 @Component
 public class ZookeeperUtils {
@@ -61,7 +60,7 @@ public class ZookeeperUtils {
 				lock.release();
 			}
 		} else {
-			throw new GlobalException(ErrorCode.BUSY_LOCK.getName(), ErrorCode.BUSY_LOCK.getCode());
+			throw new LockBusyException("系统繁忙，请稍后重试!", "-100102");
 		}
 
 	}
@@ -94,7 +93,7 @@ public class ZookeeperUtils {
 				return list.size();
 			}
 		} catch (Exception e) {
-			logger.error(ExceptionUtils.getStackTrace(e));
+			logger.error(ExceptionUtils.getFullStackTrace(e));
 		}
 		return 0;
 	}
