@@ -1,4 +1,4 @@
-package com.szzc.spring.boot.starter.zookeeper;
+package me.douboo.springboot.zookeeper;
 
 import java.net.InetAddress;
 import java.util.List;
@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import com.szzc.spring.boot.starter.zookeeper.exception.LockBusyException;
+import me.douboo.springboot.zookeeper.exception.LockBusyException;
 
 @Component
 public class ZookeeperUtils {

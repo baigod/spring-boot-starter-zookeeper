@@ -1,4 +1,4 @@
-package com.szzc.spring.boot.starter.zookeeper;
+package me.douboo.springboot.zookeeper;
 
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;

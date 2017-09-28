@@ -1,4 +1,4 @@
-package com.szzc.spring.boot.starter.zookeeper;
+package me.douboo.springboot.zookeeper;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

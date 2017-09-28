@@ -1,4 +1,4 @@
-package com.szzc.spring.boot.starter.zookeeper.exception;
+package me.douboo.springboot.zookeeper.exception;
 
 public class LockBusyException extends RuntimeException {
 

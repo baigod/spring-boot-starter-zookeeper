@@ -1,4 +1,4 @@
-package com.szzc.spring.boot.starter.zookeeper;
+package me.douboo.springboot.zookeeper;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
