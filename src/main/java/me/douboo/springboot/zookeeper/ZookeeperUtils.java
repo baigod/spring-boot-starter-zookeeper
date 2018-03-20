@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -26,6 +27,9 @@ public class ZookeeperUtils {
 
 	@Autowired
 	private CuratorFramework client;
+
+	@Autowired
+	private ServerProperties serverProperties;
 
 	/**
 	 * 申请锁，3秒申请不到则为锁存在,报异常
@@ -161,6 +165,13 @@ public class ZookeeperUtils {
 		return this.createNode(path, node);
 	}
 
+	// 创建当前应用客户端节点
+	private String createClientWithPort() throws Exception {
+		final String path = "/" + applicationName + "/client";
+		final String node = hostname + "/" + serverProperties.getPort();
+		return this.createNode(path, node);
+	}
+
 	/**
 	 * 获取客户端索引
 	 * 
@@ -172,6 +183,21 @@ public class ZookeeperUtils {
 	public int getClientIndex() {
 		try {
 			final String path = createClient();
+			List<String> list = client.getChildren().watched().forPath(path);
+			if (!CollectionUtils.isEmpty(list)) {
+				int index = list.indexOf(hostname);
+				logger.debug("{}正在执行定时任务;当前集群节点:{};数量:{};本机序号：{}", hostname, list, list.size(), index);
+				return index;
+			}
+		} catch (Exception e) {
+			logger.error(ExceptionUtils.getStackTrace(e));
+		}
+		return -1;
+	}
+
+	public int getClientIndexWithPort() {
+		try {
+			final String path = createClientWithPort();
 			List<String> list = client.getChildren().watched().forPath(path);
 			if (!CollectionUtils.isEmpty(list)) {
 				int index = list.indexOf(hostname);
