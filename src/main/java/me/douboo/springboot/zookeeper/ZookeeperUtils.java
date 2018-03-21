@@ -1,5 +1,7 @@
 package me.douboo.springboot.zookeeper;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
 import java.net.InetAddress;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -27,9 +29,6 @@ public class ZookeeperUtils {
 
 	@Autowired
 	private CuratorFramework client;
-
-	@Autowired
-	private ServerProperties serverProperties;
 
 	/**
 	 * 申请锁，3秒申请不到则为锁存在,报异常
@@ -166,9 +165,9 @@ public class ZookeeperUtils {
 	}
 
 	// 创建当前应用客户端节点
-	private String createClientWithPort() throws Exception {
-		final String path = "/" + applicationName + "/client";
-		final String node = hostname + "/" + serverProperties.getPort();
+	private String createClientWithPID() throws Exception {
+		final String path = "/" + applicationName + "/client/" + hostname;
+		final String node = getProcessID() + "";
 		return this.createNode(path, node);
 	}
 
@@ -195,13 +194,13 @@ public class ZookeeperUtils {
 		return -1;
 	}
 
-	public int getClientIndexWithPort() {
+	public int getClientIndexWithPID() {
 		try {
-			final String path = createClientWithPort();
+			final String path = createClientWithPID();
 			List<String> list = client.getChildren().watched().forPath(path);
 			if (!CollectionUtils.isEmpty(list)) {
-				int index = list.indexOf(hostname);
-				logger.debug("{}正在执行定时任务;当前集群节点:{};数量:{};本机序号：{}", hostname, list, list.size(), index);
+				int index = list.indexOf(getProcessID() + "");
+				logger.debug("{}正在执行定时任务;当前集群节点:{};数量:{};本机序号：{}", getProcessID(), list, list.size(), index);
 				return index;
 			}
 		} catch (Exception e) {
@@ -225,6 +224,12 @@ public class ZookeeperUtils {
 			logger.error(ExceptionUtils.getStackTrace(e));
 		}
 		return false;
+	}
+
+	public static final int getProcessID() {
+		RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
+		System.out.println(runtimeMXBean.getName());
+		return Integer.valueOf(runtimeMXBean.getName().split("@")[0]).intValue();
 	}
 
 }
