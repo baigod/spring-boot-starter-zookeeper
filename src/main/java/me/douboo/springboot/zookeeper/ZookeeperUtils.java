@@ -6,7 +6,6 @@ import java.net.InetAddress;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.apache.zookeeper.CreateMode;
@@ -95,7 +94,7 @@ public class ZookeeperUtils {
 				return list.size();
 			}
 		} catch (Exception e) {
-			logger.error(ExceptionUtils.getFullStackTrace(e));
+			logger.error(e.getMessage(), e);
 		}
 		return 0;
 	}
@@ -115,7 +114,7 @@ public class ZookeeperUtils {
 				return list;
 			}
 		} catch (Exception e) {
-			logger.error(ExceptionUtils.getStackTrace(e));
+			logger.error(e.getMessage(), e);
 		}
 		return null;
 	}
@@ -188,7 +187,7 @@ public class ZookeeperUtils {
 				return index;
 			}
 		} catch (Exception e) {
-			logger.error(ExceptionUtils.getStackTrace(e));
+			logger.error(e.getMessage(), e);
 		}
 		return -1;
 	}
@@ -203,7 +202,7 @@ public class ZookeeperUtils {
 				return index;
 			}
 		} catch (Exception e) {
-			logger.error(ExceptionUtils.getStackTrace(e));
+			logger.error(e.getMessage(), e);
 		}
 		return -1;
 	}
@@ -220,7 +219,7 @@ public class ZookeeperUtils {
 			List<String> list = client.getChildren().watched().forPath(path);
 			return !CollectionUtils.isEmpty(list) && list.contains(node);
 		} catch (Exception e) {
-			logger.error(ExceptionUtils.getStackTrace(e));
+			logger.error(e.getMessage(), e);
 		}
 		return false;
 	}
