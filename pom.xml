@@ -6,12 +6,12 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.1.RELEASE</version>
+		<version>1.5.14.RELEASE</version>
 	</parent>
 
 	<groupId>me.douboo.springboot</groupId>
 	<artifactId>spring-boot-starter-zookeeper</artifactId>
-	<version>1.0.3</version>
+	<version>1.0.4</version>
 	<packaging>jar</packaging>
 
 	<name>spring-boot-starter-zookeeper</name>
